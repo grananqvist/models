@@ -101,7 +101,7 @@ _CONSIDITION_INFORMATION = DatasetDescriptor(
         'train': 1661
     },
     num_classes=4,
-    ignore_label=255,
+    ignore_label=0,
 )
 
 _DATASETS_INFORMATION = {

@@ -159,6 +159,7 @@ def _process_batch(sess, original_images, semantic_predictions, image_names,
     image_width = np.squeeze(image_widths[i])
     original_image = np.squeeze(original_images[i])
     semantic_prediction = np.squeeze(semantic_predictions[i])
+    print('semantic predictions', np.unique(semantic_prediction))
     crop_semantic_prediction = semantic_prediction[:image_height, :image_width]
 
     # Save image.
