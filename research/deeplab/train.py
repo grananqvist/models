@@ -458,7 +458,8 @@ def main(unused_argv):
           is_training=True,
           should_shuffle=True,
           should_repeat=True)
-
+    
+      
       train_tensor, summary_op = _train_deeplab_model(
           dataset.get_one_shot_iterator(), dataset.num_of_classes,
           dataset.ignore_label)
