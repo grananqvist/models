@@ -390,8 +390,8 @@ def _train_deeplab_model(iterator, num_of_classes, ignore_label):
     grads_and_vars = _average_gradients(tower_grads)
 
     # Modify the gradients for biases and last layer variables.
-    last_layers = model.get_extra_layer_scopes(
-        FLAGS.last_layers_contain_logits_only)
+    last_layers = model.get_extra_layer_scopes(True)
+    #FLAGS.last_layers_contain_logits_only)
     grad_mult = train_utils.get_model_gradient_multipliers(
         last_layers, FLAGS.last_layer_gradient_multiplier)
     if grad_mult:
@@ -468,14 +468,14 @@ def main(unused_argv):
       session_config = tf.ConfigProto(
           allow_soft_placement=True, log_device_placement=False)
 
-      last_layers = model.get_extra_layer_scopes(
-          FLAGS.last_layers_contain_logits_only)
+      last_layers = model.get_extra_layer_scopes(True)
+      #FLAGS.last_layers_contain_logits_only)
       init_fn = None
       if FLAGS.tf_initial_checkpoint:
         init_fn = train_utils.get_model_init_fn(
             FLAGS.train_logdir,
             FLAGS.tf_initial_checkpoint,
-            FLAGS.initialize_last_layer,
+            False, #FLAGS.initialize_last_layer,
             last_layers,
             ignore_missing_vars=True)
 
