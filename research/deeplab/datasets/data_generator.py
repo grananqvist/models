@@ -100,8 +100,8 @@ _CONSIDITION_INFORMATION = DatasetDescriptor(
     splits_to_sizes={
         'train': 1661
     },
-    num_classes=4,
-    ignore_label=0,
+    num_classes=5,
+    ignore_label=255,
 )
 
 _DATASETS_INFORMATION = {
