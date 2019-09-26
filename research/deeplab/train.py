@@ -482,6 +482,7 @@ def main(unused_argv):
       scaffold = tf.train.Scaffold(
           init_fn=init_fn,
           summary_op=summary_op,
+          saver=tf.train.Saver(max_to_keep=8)
       )
 
       stop_hook = tf.train.StopAtStepHook(

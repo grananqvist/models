@@ -200,7 +200,7 @@ def main(unused_argv):
       resize_factor=FLAGS.resize_factor,
       model_variant=FLAGS.model_variant,
       is_training=False,
-      should_shuffle=False,
+      should_shuffle=True, #False,
       should_repeat=False)
 
   train_id_to_eval_id = None
