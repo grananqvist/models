@@ -31,6 +31,7 @@ def add_softmax_cross_entropy_loss_for_each_scale(scales_to_logits,
                                                   num_classes,
                                                   ignore_label,
                                                   loss_weight=1.0,
+                                                  class_weights=[1.0,1.0,1.0,1.0],
                                                   upsample_logits=True,
                                                   hard_example_mining_step=0,
                                                   top_k_percent_pixels=1.0,
@@ -86,11 +87,8 @@ def add_softmax_cross_entropy_loss_for_each_scale(scales_to_logits,
                                                ignore_label)) * loss_weight
 
     # Class-wise weights on losses
-    label0_weight = 1.0 
-    label1_weight = 2.48
-    label2_weight = 12.13
-    label3_weight = 7.18
-    not_ignore_mask = tf.to_float(tf.equal(scaled_labels, 0)) * label0_weight + tf.to_float(tf.equal(scaled_labels, 1)) * label1_weight + tf.to_float(tf.equal(scaled_labels, 2)) * label2_weight+ tf.to_float(tf.equal(scaled_labels, 3)) * label3_weight + tf.to_float(tf.equal(scaled_labels, ignore_label)) * 0.0
+    print('class weights used', class_weights)
+    not_ignore_mask = tf.to_float(tf.equal(scaled_labels, 0)) * class_weights[0] + tf.to_float(tf.equal(scaled_labels, 1)) * class_weights[1] + tf.to_float(tf.equal(scaled_labels, 2)) * class_weights[2] + tf.to_float(tf.equal(scaled_labels, 3)) * class_weights[3] + tf.to_float(tf.equal(scaled_labels, ignore_label)) * 0.0
 
 
 
