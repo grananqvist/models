@@ -116,11 +116,21 @@ _CONSIDITION_INFORMATION = DatasetDescriptor(
     ignore_label=255,
 )
 
+_SATELLITE_INFORMATION = DatasetDescriptor(
+    splits_to_sizes={
+        'train': 4796,
+        'eval': 1088
+    },
+    num_classes=9,
+    ignore_label=255,
+)
+
 
 _DATASETS_INFORMATION = {
     'cityscapes': _CITYSCAPES_INFORMATION,
     'pascal_voc_seg': _PASCAL_VOC_SEG_INFORMATION,
     'considition': _CONSIDITION_INFORMATION,
+    'satellite': _SATELLITE_INFORMATION,
     'ade20k': _ADE20K_INFORMATION,
 }
 
