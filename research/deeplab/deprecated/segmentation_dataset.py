@@ -110,7 +110,8 @@ _ADE20K_INFORMATION = DatasetDescriptor(
 
 _CONSIDITION_INFORMATION = DatasetDescriptor(
     splits_to_sizes={
-        'train': 1661
+        'train': 1661,
+        'eval': 6662
     },
     num_classes=4,
     ignore_label=255,
