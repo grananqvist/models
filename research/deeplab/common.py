@@ -161,7 +161,8 @@ class ModelOptions(
         'prediction_with_upsampled_logits',
         'dense_prediction_cell_config',
         'nas_stem_output_num_conv_filters',
-        'use_bounded_activation'
+        'use_bounded_activation',
+        'normalize'
     ])):
   """Immutable class to hold model options."""
 
@@ -172,7 +173,8 @@ class ModelOptions(
               crop_size=None,
               atrous_rates=None,
               output_stride=8,
-              preprocessed_images_dtype=tf.float32):
+              preprocessed_images_dtype=tf.float32,
+              normalize=False):
     """Constructor to set default values.
 
     Args:
@@ -215,7 +217,7 @@ class ModelOptions(
         FLAGS.decoder_use_separable_conv, FLAGS.logits_kernel_size,
         FLAGS.model_variant, FLAGS.depth_multiplier, FLAGS.divisible_by,
         FLAGS.prediction_with_upsampled_logits, dense_prediction_cell_config,
-        FLAGS.nas_stem_output_num_conv_filters, FLAGS.use_bounded_activation)
+        FLAGS.nas_stem_output_num_conv_filters, FLAGS.use_bounded_activation, FLAGS.normalize)
 
   def __deepcopy__(self, memo):
     return ModelOptions(copy.deepcopy(self.outputs_to_num_classes),
