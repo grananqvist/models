@@ -60,6 +60,8 @@ flags.DEFINE_integer(
 flags.DEFINE_bool('save_inference_graph', False,
                   'Save inference graph in text proto.')
 
+flags.DEFINE_bool('normalize', False, 'Divide images by 255')
+
 # Input name of the exported model.
 _INPUT_NAME = 'ImageTensor'
 
@@ -97,7 +99,9 @@ def _create_input_tensors():
       max_resize_value=FLAGS.max_resize_value,
       resize_factor=FLAGS.resize_factor,
       is_training=False,
-      model_variant=FLAGS.model_variant)
+      model_variant=FLAGS.model_variant,
+      normalize=FLAGS.normalize
+      )
   resized_image_size = tf.shape(resized_image)[:2]
 
   # Expand the dimension in axis=0, since the following operations assume the

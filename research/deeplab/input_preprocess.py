@@ -36,7 +36,8 @@ def preprocess_image_and_label(image,
                                scale_factor_step_size=0,
                                ignore_label=255,
                                is_training=True,
-                               model_variant=None):
+                               model_variant=None,
+                               normalize=False):
   """Preprocesses the image and label.
 
   Args:
@@ -77,6 +78,8 @@ def preprocess_image_and_label(image,
   original_image = image
 
   processed_image = tf.cast(image, tf.float32)
+  if normalize:
+    processed_image = processed_image / 255
 
   if label is not None:
     label = tf.cast(label, tf.int32)
