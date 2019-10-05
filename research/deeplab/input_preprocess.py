@@ -81,6 +81,9 @@ def preprocess_image_and_label(image,
   if label is not None:
     label = tf.cast(label, tf.int32)
 
+  if is_training and label is not None:
+    processed_image, label = preprocess_utils.rotate([processed_image, label], 1.0)
+
   # Resize image and label to the desired range.
   if min_resize_value or max_resize_value:
     [processed_image, label] = (
@@ -134,5 +137,9 @@ def preprocess_image_and_label(image,
     # Randomly left-right flip the image and label.
     processed_image, label, _ = preprocess_utils.flip_dim(
         [processed_image, label], _PROB_OF_FLIP, dim=1)
+
+    # flip other dim
+    processed_image, label, _ = preprocess_utils.flip_dim(
+        [processed_image, label], _PROB_OF_FLIP, dim=2)
 
   return original_image, processed_image, label
