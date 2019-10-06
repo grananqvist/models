@@ -79,6 +79,7 @@ def preprocess_image_and_label(image,
 
   processed_image = tf.cast(image, tf.float32)
   if normalize:
+    print("Normalizing image")
     processed_image = processed_image / 255
 
   if label is not None:
