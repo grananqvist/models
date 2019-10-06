@@ -122,7 +122,8 @@ def main(unused_argv):
         outputs_to_num_classes={common.OUTPUT_TYPE: FLAGS.num_classes},
         crop_size=FLAGS.crop_size,
         atrous_rates=FLAGS.atrous_rates,
-        output_stride=FLAGS.output_stride)
+        output_stride=FLAGS.output_stride,
+        normalize=FLAGS.normalize)
 
     if tuple(FLAGS.inference_scales) == (1.0,):
       tf.logging.info('Exported model performs single-scale inference.')
