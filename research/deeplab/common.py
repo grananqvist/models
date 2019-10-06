@@ -23,6 +23,14 @@ import tensorflow as tf
 
 flags = tf.app.flags
 
+# custom flags
+
+flags.DEFINE_boolean('normalize', False,
+                     'Divide by 255.')
+
+flags.DEFINE_float('percentage_weight', 0,
+                   'weight for percentage MSE loss')
+
 # Flags for input preprocessing.
 
 flags.DEFINE_integer('min_resize_value', None,

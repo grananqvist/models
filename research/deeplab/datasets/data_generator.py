@@ -238,6 +238,8 @@ class Dataset(object):
             tf.FixedLenFeature((), tf.string, default_value=''),
         'image/segmentation/class/format':
             tf.FixedLenFeature((), tf.string, default_value='png'),
+        'image/location':
+            tf.FixedLenFeature((), tf.int64),
     }
 
     parsed_features = tf.parse_single_example(example_proto, features)
@@ -258,6 +260,7 @@ class Dataset(object):
         common.IMAGE_NAME: image_name,
         common.HEIGHT: parsed_features['image/height'],
         common.WIDTH: parsed_features['image/width'],
+        'location': parsed_features['image/location'],
     }
 
     if label is not None:

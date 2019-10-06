@@ -24,7 +24,6 @@ def rotate(tensor_list, prob=0.5):
         flipped = []
 
         angles = tf.random_uniform(shape=[1], minval=-0.5, maxval=0.5)
-        angles = tf.Print(angles, [angles], "angles")
         for tensor in tensor_list:
 
             rotated_image = tf.contrib.image.rotate(

@@ -50,6 +50,7 @@ The Example proto contains the following fields:
   image/segmentation/class/encoded: encoded semantic segmentation content.
   image/segmentation/class/format: semantic segmentation file format.
 """
+import json
 import math
 import os.path
 import sys
@@ -77,9 +78,17 @@ tf.app.flags.DEFINE_string(
     './tfrecord',
     'Path to save converted SSTable of TensorFlow examples.')
 
-
 _NUM_SHARDS = 4
 
+img_to_num = [
+        'Kenya', 
+        'Monrovia', 
+        'Phillippines', 
+        'coxs', 
+        'cxb', 
+        'moz1', 
+        'moz2', 
+        'zanzibar']
 
 def _convert_dataset(dataset_split):
   """Converts the specified dataset split to TFRecord format.
@@ -123,9 +132,19 @@ def _convert_dataset(dataset_split):
         seg_height, seg_width = label_reader.read_image_dims(seg_data)
         if height != seg_height or width != seg_width:
           raise RuntimeError('Shape mismatched between image and label.')
+
+        # Read the percentage file.
+        #percentage_path = os.path.join(FLAGS.percentage_dir, filenames[i] + '.json')
+        #percentages = json.load(open(percentage_path, 'r'))
+        #percentages = [percentages['building'], percentages['road'], percentages['water']]
+
+        # Convert location to integer.
+        img_index = img_to_num.index(filenames[i].split('_')[0])
+
         # Convert to tf example.
         example = build_data.image_seg_to_tfexample(
-            image_data, filenames[i], height, width, seg_data)
+            image_data, filenames[i], height, width, seg_data,
+            img_index)
         tfrecord_writer.write(example.SerializeToString())
     sys.stdout.write('\n')
     sys.stdout.flush()
