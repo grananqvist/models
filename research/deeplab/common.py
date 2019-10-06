@@ -212,6 +212,9 @@ class ModelOptions(
     image_pooling_stride = [1, 1]
     if FLAGS.image_pooling_stride:
       image_pooling_stride = [int(x) for x in FLAGS.image_pooling_stride]
+
+    if FLAGS.noramlize:
+      print("Common.py Normalizing images!")
     return super(ModelOptions, cls).__new__(
         cls, outputs_to_num_classes, crop_size, atrous_rates, output_stride,
         preprocessed_images_dtype, FLAGS.merge_method,
