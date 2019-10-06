@@ -28,6 +28,9 @@ from deeplab.utils import train_utils
 flags = tf.app.flags
 FLAGS = flags.FLAGS
 
+flags.DEFINE_float('percentage_weight', 0,
+                   'weight for percentage MSE loss')
+
 # Settings for multi-GPUs/multi-replicas training.
 
 flags.DEFINE_integer('num_clones', 1, 'Number of clones to deploy.')
@@ -244,6 +247,7 @@ def _build_deeplab(iterator, outputs_to_num_classes, ignore_label):
         upsample_logits=FLAGS.upsample_logits,
         hard_example_mining_step=FLAGS.hard_example_mining_step,
         top_k_percent_pixels=FLAGS.top_k_percent_pixels,
+        percentage_weight=FLAGS.percentage_weight,
         scope=output)
 
     # Log the summary

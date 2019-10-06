@@ -84,6 +84,7 @@ def add_softmax_cross_entropy_loss_for_each_scale(scales_to_logits,
           align_corners=True)
 
     if percentage_weight > 0:
+        print('adding percentage weight', percentage_weight)
 
         # Ground truth percentages.
         num_pixels = tf.cast(scaled_labels.shape[1] * scaled_labels.shape[2], tf.float32)
