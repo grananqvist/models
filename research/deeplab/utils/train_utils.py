@@ -83,41 +83,14 @@ def add_softmax_cross_entropy_loss_for_each_scale(scales_to_logits,
           preprocess_utils.resolve_shape(logits, 4)[1:3],
           align_corners=True)
 
-    if percentage_weight > 0:
-        print('adding percentage weight', percentage_weight)
-
-        # Ground truth percentages.
-        num_pixels = tf.cast(scaled_labels.shape[1] * scaled_labels.shape[2], tf.float32)
-        percentages = tf.stack([
-            tf.reduce_sum(tf.cast(tf.equal(scaled_labels, 1), tf.float32), axis=[1,2,3]),
-            tf.reduce_sum(tf.cast(tf.equal(scaled_labels, 2), tf.float32), axis=[1,2,3]),
-            tf.reduce_sum(tf.cast(tf.equal(scaled_labels, 3), tf.float32), axis=[1,2,3]),
-            ], axis=-1) / num_pixels
-        percentages = tf.Print(percentages, [percentages], "Percentage labels")
-
-        # Predicted percentages.
-        num_pixels = tf.cast(logits.shape[1] * logits.shape[2], tf.float32)
-        pred_cls = tf.argmax(logits, axis=-1)
-        pred_percentages = tf.stack([
-            tf.reduce_sum(tf.cast(tf.equal(pred_cls, 1), tf.float32), axis=[1,2]),
-            tf.reduce_sum(tf.cast(tf.equal(pred_cls, 2), tf.float32), axis=[1,2]),
-            tf.reduce_sum(tf.cast(tf.equal(pred_cls, 3), tf.float32), axis=[1,2]),
-            ], axis=-1) / num_pixels
-        pred_percentages = tf.Print(pred_percentages, [pred_percentages], "Percentage preds")
-        pred_percentages = tf.Print(pred_percentages, [tf.shape(tf.losses.get_regularization_losses()), tf.losses.get_regularization_losses()], "All losses", summarize=10000)
-
-        # Add percentage MSE loss.
-        tf.losses.mean_squared_error(percentages, pred_percentages, weights=percentage_weight)
-
     scaled_labels = tf.reshape(scaled_labels, shape=[-1])
     not_ignore_mask = tf.to_float(tf.not_equal(scaled_labels,
                                                ignore_label)) * loss_weight
 
     # Class-wise weights on losses
     print('class weights used', class_weights)
+    # num_logits = out_width * out_height * 4
     not_ignore_mask = tf.to_float(tf.equal(scaled_labels, 0)) * class_weights[0] + tf.to_float(tf.equal(scaled_labels, 1)) * class_weights[1] + tf.to_float(tf.equal(scaled_labels, 2)) * class_weights[2] + tf.to_float(tf.equal(scaled_labels, 3)) * class_weights[3] + tf.to_float(tf.equal(scaled_labels, ignore_label)) * 0.0
-
-
 
     one_hot_labels = tf.one_hot(
         scaled_labels, num_classes, on_value=1.0, off_value=0.0)
