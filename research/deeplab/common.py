@@ -25,8 +25,6 @@ flags = tf.app.flags
 
 # custom flags
 
-flags.DEFINE_boolean('normalize', False,
-                     'Divide by 255.')
 
 flags.DEFINE_float('percentage_weight', 0,
                    'weight for percentage MSE loss')
@@ -214,6 +212,9 @@ class ModelOptions(
     image_pooling_stride = [1, 1]
     if FLAGS.image_pooling_stride:
       image_pooling_stride = [int(x) for x in FLAGS.image_pooling_stride]
+
+    if FLAGS.normalize:
+      print("Common.py Normalizing images!")
     return super(ModelOptions, cls).__new__(
         cls, outputs_to_num_classes, crop_size, atrous_rates, output_stride,
         preprocessed_images_dtype, FLAGS.merge_method,
@@ -225,7 +226,7 @@ class ModelOptions(
         FLAGS.decoder_use_separable_conv, FLAGS.logits_kernel_size,
         FLAGS.model_variant, FLAGS.depth_multiplier, FLAGS.divisible_by,
         FLAGS.prediction_with_upsampled_logits, dense_prediction_cell_config,
-        FLAGS.nas_stem_output_num_conv_filters, FLAGS.use_bounded_activation, FLAGS.normalize)
+        FLAGS.nas_stem_output_num_conv_filters, FLAGS.use_bounded_activation, FLAGS.normalize or normalize)
 
   def __deepcopy__(self, memo):
     return ModelOptions(copy.deepcopy(self.outputs_to_num_classes),
